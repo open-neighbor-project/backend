@@ -1,14 +1,24 @@
-<server description="User microservice for Open Neighbor project">
-    <featureManager>
+<server description="backend server">
+  
+  <featureManager>
+      <feature>mpJwt-1.1</feature>
       <feature>jaxrs-2.1</feature>
       <feature>cdi-2.0</feature>
       <feature>jsonp-1.1</feature>
-    </featureManager>
-  
-    <variable name="default.http.port" defaultValue="9080" />
-    <variable name="default.https.port" defaultValue="9443" />
-  
-    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
-  
-    <webApplication location="user.war" contextRoot="/"/>
+  </featureManager>
+
+  <!-- keystore that will be used by SSL and by JWT. -->
+  <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" 
+            password="secret" />
+
+  <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="${http.port}" 
+                httpsPort="${https.port}"/>
+
+  <webApplication location="${app.name}" contextRoot="/" />
+
+  <!-- The MP JWT configuration that injects the caller's JWT into a 
+       ResourceScoped bean for inspection. -->
+  <mpJwt id="jwtUserConsumer" keyName="default" audiences="simpleapp" 
+         issuer="${jwt.issuer}"/>
+
 </server>
