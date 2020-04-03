@@ -6,7 +6,7 @@ node {
         	checkout scm
         }
         stage ('Build') {
-            sh "Building ..."
+            sh "echo Building ..."
         }
         stage ('Tests') {
 	        parallel 'static': {
