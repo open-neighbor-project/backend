@@ -6,9 +6,9 @@ import javax.ws.rs.core.Application;
 
 import org.eclipse.microprofile.auth.LoginConfig;
 
-@LoginConfig(authMethod = "MP-JWT")
+@LoginConfig(authMethod = "mpjwt")
 @ApplicationPath("resources")
-@DeclareRoles({"Volunteer", "ADMIN"})
+@DeclareRoles({"requester", "volunteer"})
 public class ResourceConfig extends Application {
 
 }
