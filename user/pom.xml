@@ -32,7 +32,7 @@
     </dependencies>
     
 	<build>
-		<finalName>open-neighbor</finalName>
+        <finalName>open-neighbor</finalName>
     </build>
     
 	<properties>
@@ -41,5 +41,6 @@
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+    </properties>
+    
 </project>
