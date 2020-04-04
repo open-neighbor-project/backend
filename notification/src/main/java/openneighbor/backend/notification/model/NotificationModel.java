@@ -1,19 +1,15 @@
 package openneighbor.backend.notification.model;
 
 public class NotificationModel {
-    private String sendTo;
-    private String title;
-    private String message;
+    public String sendTo;
+    public String title;
+    public String message;
 
-    public String getRecipient() {
-        return sendTo;
-    }
+    public NotificationModel() {}
 
-    public String getMessage() {
-        return message;
-    }
-
-    public String getTitle() {
-        return title;
+    public NotificationModel(String sendTo, String title, String message) {
+        this.sendTo = sendTo;
+        this.title = title;
+        this.message = message;
     }
 }

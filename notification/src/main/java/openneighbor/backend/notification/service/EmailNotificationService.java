@@ -21,6 +21,8 @@ import openneighbor.backend.notification.model.NotificationModel;
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.model.Message;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Model;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
@@ -28,22 +30,22 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 
 import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
+@ApplicationScoped
 public class EmailNotificationService implements INotificationService<Message> {
 
     private Gmail service;
-    private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private NetHttpTransport HTTP_TRANSPORT;
-    private final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_LABELS);
-    private final String TOKENS_DIRECTORY_PATH = "tokens";
 
     public EmailNotificationService() throws FileNotFoundException, IOException, GeneralSecurityException {
-        HTTP_TRANSPORT =  GoogleNetHttpTransport.newTrustedTransport();
+        final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        final String[] _scopes = {GmailScopes.GMAIL_SEND, GmailScopes.GMAIL_COMPOSE};
+        final List<String> SCOPES = Arrays.asList(_scopes);
+        final String TOKENS_DIRECTORY_PATH = "tokens";
 
-        InputStream in = getClass().getResourceAsStream("token.json");
+        InputStream in = getClass().getClassLoader().
+                getResourceAsStream("token.json");
         if (in == null) {
             throw new FileNotFoundException("Resource not found: token.json");
         }
@@ -60,23 +62,11 @@ public class EmailNotificationService implements INotificationService<Message> {
         service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
                 .setApplicationName("Open Neighbor")
                 .build();
-
-        // Print the labels in the user's account.
-        String user = "me";
-        ListLabelsResponse listResponse = service.users().labels().list(user).execute();
-        List<Label> labels = listResponse.getLabels();
-        if (labels.isEmpty()) {
-            System.out.println("No labels found.");
-        } else {
-            System.out.println("Labels:");
-            for (Label label : labels) {
-                System.out.printf("- %s\n", label.getName());
-            }
-        }
     }
 
     public Message notify(NotificationModel notification) throws MessagingException, IOException {
-        MimeMessage emailContents = this.createEmail(notification.getRecipient(), notification.getTitle(), notification.getMessage());
+        System.out.println(notification.toString());
+        MimeMessage emailContents = this.createEmail(notification.sendTo, notification.title, notification.message);
         return sendMessage(service, emailContents);
     }
 
@@ -94,11 +84,16 @@ public class EmailNotificationService implements INotificationService<Message> {
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties, null);
 
+        System.out.println(recipient);
+        System.out.println(subject);
+        System.out.println(body);
+
         MimeMessage email = new MimeMessage(session);
 
-        email.setFrom(new InternetAddress("TODO: GET AN EMAIL FOR THE APP"));
+        email.setFrom(new InternetAddress("kartikrajkanna@gmail.com")); //TODO: REPLACE THIS
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient));
-        email.setSubject(body);
+        email.setSubject(subject);
+        email.setText(body);
 
         return email;
     }
