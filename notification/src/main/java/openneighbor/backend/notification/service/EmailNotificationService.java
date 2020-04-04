@@ -20,9 +20,11 @@ import openneighbor.backend.notification.model.NotificationModel;
 
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.model.Message;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Model;
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
@@ -34,6 +36,10 @@ import java.util.*;
 
 @ApplicationScoped
 public class EmailNotificationService implements INotificationService<Message> {
+
+    @Inject
+    @ConfigProperty(name="service.email")
+    private String configEmail;
 
     private Gmail service;
 
@@ -90,7 +96,7 @@ public class EmailNotificationService implements INotificationService<Message> {
 
         MimeMessage email = new MimeMessage(session);
 
-        email.setFrom(new InternetAddress("kartikrajkanna@gmail.com")); //TODO: REPLACE THIS
+        email.setFrom(new InternetAddress(configEmail));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient));
         email.setSubject(subject);
         email.setText(body);
