@@ -2,6 +2,7 @@ package openneighbor.backend.notification;
 
 import com.google.api.services.gmail.model.Message;
 import openneighbor.backend.notification.model.NotificationModel;
+import openneighbor.backend.notification.model.OrderModel;
 import openneighbor.backend.notification.service.EmailNotificationService;
 import openneighbor.backend.notification.service.INotificationService;
 
@@ -33,12 +34,10 @@ public class NotificationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("orderAssigned")
-    public Response notifyOrderAssigned(NotificationModel notification) {
-//        NotificationModel notification = new NotificationModel(user,
-//                "Volunteer assigned",
-//                "Your order has been assigned to a volunteer: " + volunteerDetails);
-        notification.title = "Volunteer assigned";
-        notification.message = "Your order has been assigned to a volunteer: " + notification.message;
+    public Response notifyOrderAssigned(OrderModel order) {
+        NotificationModel notification = new NotificationModel(order.customerId.toString(),
+                "Volunteer assigned",
+                "Your order has been assigned to a volunteer: " + order.volunteerId.toString());
         return _notify(notification);
     }
 
@@ -46,9 +45,10 @@ public class NotificationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("orderPurchased")
-    public Response notifyOrderPurchased(NotificationModel notification) {
-        notification.title = "Order has been purchased";
-        notification.message = "Your order has been purchased by your volunteer: " + notification.message;
+    public Response notifyOrderPurchased(OrderModel order) {
+        NotificationModel notification = new NotificationModel(order.customerId.toString(),
+                "Order has been purchased",
+                "Your order has been purchased by your volunteer: " + order.volunteerId.toString());
         return _notify(notification);
     }
 
@@ -56,9 +56,10 @@ public class NotificationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("orderDelivered")
-    public Response notifyOrderDelivered(NotificationModel notification) {
-        notification.title = "Order delivered to your doorstep";
-        notification.message = "Your order has been delivered outside your door by your volunteer: " + notification.message;
+    public Response notifyOrderDelivered(OrderModel order) {
+        NotificationModel notification = new NotificationModel(order.customerId.toString(),
+                "Order delivered to your doorstep",
+                "Your order has been delivered outside your door by your volunteer: " + order.volunteerId.toString());
         return _notify(notification);
     }
 
@@ -66,9 +67,10 @@ public class NotificationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("orderReceived")
-    public Response notifyOrderReceived(NotificationModel notification) {
-        notification.title = "Order received by user";
-        notification.message = "Your order has been delivered outside your door by your volunteer: " + notification.message;
+    public Response notifyOrderReceived(OrderModel order) {
+        NotificationModel notification = new NotificationModel(order.volunteerId.toString(),
+                "Order received by user",
+                "Your order has been delivered outside your door by your volunteer: " + order.customerId.toString());
         return _notify(notification);
     }
 
