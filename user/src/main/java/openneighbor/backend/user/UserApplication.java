@@ -4,7 +4,7 @@ package openneighbor.backend.user;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;
 
-@ApplicationPath("api")
+@ApplicationPath("user")
 public class UserApplication extends Application {
 
 }

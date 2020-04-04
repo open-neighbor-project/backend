@@ -32,3 +32,4 @@ public class SecureResource {
 		return Response.ok(callerPrincipal.getName() + " is allowed to read message: " + message).build();
 	}
 }
+
