@@ -35,7 +35,7 @@ public class OrderManager {
     
     public Order getOrder(String orderId) {
         return orders.stream()
-                .filter(order -> order.getOrderId() == Integer.parseInt(orderId))
+                .filter(order -> order.getOrderId().equals(orderId))
                 .findAny()
                 .orElse(null);
     }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Order {
 
-    private int orderId;
+    private String orderId;
     private Volunteer assignedVolunteer;
     private Customer customerDetails;
     private ArrayList<Item> itemList;
@@ -14,10 +14,10 @@ public class Order {
         itemList = new ArrayList<Item>();
     }
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
     public Volunteer getAssignedVolunteer() {

@@ -1,6 +1,7 @@
 package openneighbor.backend.order;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import openneighbor.backend.order.model.Order;
+import openneighbor.backend.order.model.Status;
 
 @ApplicationScoped
 @Path("/orders")
@@ -21,13 +23,18 @@ public class OrderResource {
     
     @Inject
     private OrderManager manager;
+    private AtomicInteger assignOrderId = new AtomicInteger();
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/")
     public Response createOrder(@PathParam("Order") Order order) {
+        String orderId = String.format("%04d", assignOrderId.incrementAndGet());
+        order.setOrderId(orderId);
+        order.setStatus(Status.CREATED);
         manager.addOrder(order);
+        manager.sendNotification(order);
         return Response
                 .status(Response.Status.OK)
                 .entity(order)
