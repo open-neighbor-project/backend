@@ -4,7 +4,7 @@ package openneighbor.backend.order;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;
 
-@ApplicationPath("system")
+@ApplicationPath("/")
 public class OrderApplication extends Application {
 
 }
