@@ -12,4 +12,9 @@
     <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
   
     <webApplication location="order.war" contextRoot="order"/>
+
+    <cors domain="/"
+          allowedOrigins="*"
+          allowedMethods="GET, POST"
+          allowCredentials="true"/>
 </server>
