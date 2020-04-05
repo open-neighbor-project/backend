@@ -1,4 +1,4 @@
-package openneighbor.backend.user.secure;
+package openneighbor.backend.user.client;
 
 import java.io.IOException;
 
