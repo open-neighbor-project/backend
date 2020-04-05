@@ -32,5 +32,12 @@ public class OrderManager {
     public void sendNotification( Order order ) {
         notificationRestClient.sendNotificaton(order);
     }
+    
+    public Order getOrder(String orderId) {
+        return orders.stream()
+                .filter(order -> order.getOrderId() == Integer.parseInt(orderId))
+                .findAny()
+                .orElse(null);
+    }
 
 }

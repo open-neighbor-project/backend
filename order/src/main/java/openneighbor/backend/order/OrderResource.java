@@ -46,6 +46,25 @@ public class OrderResource {
                 .entity(ordersList)
                 .build();
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{orderId}")
+    public Response getStatus(@PathParam("orderId") String orderId) {
+        Order order = manager.getOrder(orderId);
+
+        if (order == null) {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Order id does not exist.")
+                    .build();
+        }
+
+        return Response
+                .status(Response.Status.OK)
+                .entity(order)
+                .build();
+    }
 
 }
 
