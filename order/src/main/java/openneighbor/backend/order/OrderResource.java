@@ -18,7 +18,7 @@ import openneighbor.backend.order.model.Order;
 import openneighbor.backend.order.model.Status;
 
 @ApplicationScoped
-@Path("/orders")
+@Path("api")
 public class OrderResource {
     
     @Inject
