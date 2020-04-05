@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Order {
 
     private String orderId;
-    private Volunteer assignedVolunteer;
-    private Customer customerDetails;
+    private String assignedVolunteerId;
+    private String customerDetailsId;
     private ArrayList<Item> itemList;
     private Status status;
 
@@ -20,18 +20,20 @@ public class Order {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
-    public Volunteer getAssignedVolunteer() {
-        return assignedVolunteer;
+
+    public String getAssignedVolunteerId() {
+        return assignedVolunteerId;
     }
-    public void setAssignedVolunteer(Volunteer assignedVolunteer) {
-        this.assignedVolunteer = assignedVolunteer;
+    public String getCustomerDetailsId() {
+        return customerDetailsId;
     }
-    public Customer getCustomerDetails() {
-        return customerDetails;
+    public void setAssignedVolunteerId(String assignedVolunteerId) {
+        this.assignedVolunteerId = assignedVolunteerId;
     }
-    public void setCustomerDetails(Customer customerDetails) {
-        this.customerDetails = customerDetails;
+    public void setCustomerDetailsId(String customerDetailsId) {
+        this.customerDetailsId = customerDetailsId;
     }
+
     public ArrayList<Item> getItemList() {
         return itemList;
     }

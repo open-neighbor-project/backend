@@ -29,12 +29,12 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/")
-    public Response createOrder(@PathParam("Order") Order order) {
+    public Response createOrder(Order order) {
         String orderId = String.format("%04d", assignOrderId.incrementAndGet());
         order.setOrderId(orderId);
         order.setStatus(Status.CREATED);
         manager.addOrder(order);
-        manager.sendNotification(order);
+//        manager.sendNotification(order);
         return Response
                 .status(Response.Status.OK)
                 .entity(order)
