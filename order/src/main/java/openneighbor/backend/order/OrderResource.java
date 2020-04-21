@@ -75,7 +75,7 @@ public class OrderResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("status/{orderId}")
+    @Path("{orderId}/status")
     public Response getStatus(@PathParam("orderId") String orderId) {
         Order order = manager.getOrder(orderId);
         if (order == null) {
@@ -93,7 +93,7 @@ public class OrderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("status/{orderId}/{newStatus}")
+    @Path("{orderId}/status/{newStatus}")
     public Response setStatus(@PathParam("orderId") String orderId, @PathParam("newStatus") String newStatus) {
         Order order = manager.getOrder(orderId);
         if (order == null) {
@@ -105,7 +105,10 @@ public class OrderResource {
 
         try {
             order.setStatus(Status.valueOf(newStatus));
+            manager.sendNotification(order);
+
         } catch (Exception e) {
+            e.printStackTrace();
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .entity("You have provided an incorrect status")

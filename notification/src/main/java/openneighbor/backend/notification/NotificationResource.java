@@ -26,51 +26,36 @@ public class NotificationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("notify")
-    public Response notify(NotificationModel notification) {
-        return _notify(notification);
-    }
+    public Response notify(OrderModel order) {
+        String title;
+        String message;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("orderAssigned")
-    public Response notifyOrderAssigned(OrderModel order) {
-        NotificationModel notification = new NotificationModel(order.customerId.toString(),
-                "Volunteer assigned",
-                "Your order has been assigned to a volunteer: " + order.volunteerId.toString());
-        return _notify(notification);
-    }
+        switch (order.status) {
+            case CREATED:
+                title = "Order created";
+                message = "Your order has been created and is pending assignment.";
+                break;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("orderPurchased")
-    public Response notifyOrderPurchased(OrderModel order) {
-        NotificationModel notification = new NotificationModel(order.customerId.toString(),
-                "Order has been purchased",
-                "Your order has been purchased by your volunteer: " + order.volunteerId.toString());
-        return _notify(notification);
-    }
+            case ASSIGNED:
+                title = "Volunteer assigned";
+                message = "Your order has been assigned to a volunteer: " + order.volunteerId;
+                break;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("orderDelivered")
-    public Response notifyOrderDelivered(OrderModel order) {
-        NotificationModel notification = new NotificationModel(order.customerId.toString(),
-                "Order delivered to your doorstep",
-                "Your order has been delivered outside your door by your volunteer: " + order.volunteerId.toString());
-        return _notify(notification);
-    }
+            case IN_PROGRESS:
+                title = "Order in progress";
+                message = "Your volunteer is purchasing your order";
+                break;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("orderReceived")
-    public Response notifyOrderReceived(OrderModel order) {
-        NotificationModel notification = new NotificationModel(order.volunteerId.toString(),
-                "Order received by user",
-                "Your order has been delivered outside your door by your volunteer: " + order.customerId.toString());
+            case DELIVERED:
+                title = "Order delivered to your doorstep";
+                message = "Your order has been delivered outside your door by your volunteer: " + order.customerId;
+                break;
+
+            default:
+                return Response.status(500).entity("Cannot notify").build();
+        }
+
+        NotificationModel notification = new NotificationModel(order.customerId, title, message);
         return _notify(notification);
     }
 

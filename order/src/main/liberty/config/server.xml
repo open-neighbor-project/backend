@@ -16,5 +16,6 @@
     <cors domain="/"
           allowedOrigins="*"
           allowedMethods="GET, POST"
-          allowCredentials="true"/>
+          allowCredentials="true"
+          allowHeaders="*" />
 </server>

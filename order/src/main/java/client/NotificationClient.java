@@ -7,17 +7,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import openneighbor.backend.order.model.Order;
 
-@Path("/notification")
-@RegisterRestClient(configKey = "NotificationClient", baseUri = "http://localhost:9082")
+@Path("/notification/api")
+@RegisterRestClient(configKey = "NotificationClient", baseUri = "http://localhost:9081")
 public interface NotificationClient {
 
     @POST
-    @Path("/{order}")
+    @Path("/notify")
     @Produces(MediaType.APPLICATION_JSON)
-    Response sendNotificaton(@PathParam("order") Order order);
+    Response sendNotificaton(Order order);
 
 }

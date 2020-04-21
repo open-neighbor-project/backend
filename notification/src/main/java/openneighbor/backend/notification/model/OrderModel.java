@@ -1,7 +1,8 @@
 package openneighbor.backend.notification.model;
 
 public class OrderModel {
-    public int orderId;
-    public PersonModel customerId;
-    public PersonModel volunteerId;
+    public String orderId;
+    public String customerId;
+    public String volunteerId;
+    public StatusModel status;
 }
