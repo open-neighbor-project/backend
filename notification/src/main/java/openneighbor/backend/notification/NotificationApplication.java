@@ -4,7 +4,7 @@ package openneighbor.backend.notification;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;
 
-@ApplicationPath("system")
+@ApplicationPath("/")
 public class NotificationApplication extends Application {
 
 }
