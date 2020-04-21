@@ -1,14 +1,14 @@
-<server description="User microservice for Open Neighbor project">
-    <featureManager>
+<server description="backend server">
+  
+  <featureManager>
       <feature>jaxrs-2.1</feature>
       <feature>cdi-2.0</feature>
       <feature>jsonp-1.1</feature>
-    </featureManager>
-  
-    <variable name="default.http.port" defaultValue="9080" />
-    <variable name="default.https.port" defaultValue="9443" />
-  
-    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
-  
-    <webApplication location="user.war" contextRoot="/"/>
+  </featureManager>
+
+  <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="${http.port}" 
+                httpsPort="${https.port}"/>
+
+  <webApplication location="${app.name}" contextRoot="/" />
+
 </server>
